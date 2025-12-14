@@ -25,14 +25,16 @@ jobs:
 
       - name: Run download script
         run: |
-          chmod +x ./NugetAPI.sh
-          ./NugetAPI.sh
+          chmod +x scripts/download_nuget.sh
+          scripts/download_nuget.sh
 
-      - name: Upload NuGet package to GitHub
+      - name: Verify NuGet file
+        run: |
+          ls -la .nuget-cache
+          test -f .nuget-cache/*.nupkg
+
+      - name: Upload NuGet package
         uses: actions/upload-artifact@v4
         with:
           name: newtonsoft-json-13.0.3
           path: .nuget-cache/*.nupkg
-
-      - name: Verify package
-        run: ls -la .nuget-cache
