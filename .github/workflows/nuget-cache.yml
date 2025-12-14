@@ -38,3 +38,4 @@ jobs:
         with:
           name: newtonsoft-json-13.0.3
           path: .nuget-cache
+          include-hidden-files: true
