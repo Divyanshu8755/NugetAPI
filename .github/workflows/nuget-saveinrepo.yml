@@ -1,0 +1,40 @@
+name: Download NuGet and Commit to Repo
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  download-and-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Make script executable
+        run: chmod +x ./NugetAPI.sh
+
+      - name: Run NuGet download script
+        run: ./NugetAPI.sh
+
+      - name: Verify downloaded file
+        run: |
+          ls -la .nuget-cache
+          test -f .nuget-cache/newtonsoft.json.13.0.3.nupkg
+
+      - name: Commit NuGet package to repository
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git add .nuget-cache/newtonsoft.json.13.0.3.nupkg
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Add Newtonsoft.Json 13.0.3 NuGet package"
+            git push
+          fi
