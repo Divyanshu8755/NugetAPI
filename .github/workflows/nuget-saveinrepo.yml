@@ -3,7 +3,9 @@ name: Download NuGet and Commit to Repo
 on:
   push:
     branches: [ main ]
-
+permissions:
+  contents: write   # ✅ REQUIRED to push to repo
+  
 jobs:
   download-and-commit:
     runs-on: ubuntu-latest
