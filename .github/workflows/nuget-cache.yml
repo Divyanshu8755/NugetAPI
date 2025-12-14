@@ -37,4 +37,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: newtonsoft-json-13.0.3
-          path: .nuget-cache/*.nupkg
+          path: .nuget-cache
