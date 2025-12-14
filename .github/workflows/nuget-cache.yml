@@ -1,0 +1,31 @@
+name: NuGet API Download with Cache
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # Cache downloaded package
+      - name: Cache NuGet package
+        uses: actions/cache@v4
+        with:
+          path: .nuget-cache
+          key: nuget-${{ hashFiles('scripts/download_nuget.sh') }}
+          restore-keys: |
+            nuget-
+
+      - name: Run download script
+        run: |
+          chmod +x scripts/download_nuget.sh
+          scripts/download_nuget.sh
+
+      - name: Verify package
+        run: |
+          ls .nuget-cache
