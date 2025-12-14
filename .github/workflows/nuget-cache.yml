@@ -28,5 +28,11 @@ jobs:
           chmod +x ./NugetAPI.sh
           ./NugetAPI.sh
 
+      - name: Upload NuGet package to GitHub
+        uses: actions/upload-artifact@v4
+        with:
+          name: newtonsoft-json-13.0.3
+          path: .nuget-cache/*.nupkg
+
       - name: Verify package
         run: ls -la .nuget-cache
