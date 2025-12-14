@@ -12,14 +12,16 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # Cache downloaded package
+      - name: Create NuGet cache directory
+        run: mkdir -p .nuget-cache
+
       - name: Cache NuGet package
         uses: actions/cache@v4
         with:
           path: .nuget-cache
-          key: nuget-${{ hashFiles('scripts/download_nuget.sh') }}
+          key: nuget-cache-v1
           restore-keys: |
-            nuget-
+            nuget-cache-
 
       - name: Run download script
         run: |
@@ -27,5 +29,4 @@ jobs:
           scripts/download_nuget.sh
 
       - name: Verify package
-        run: |
-          ls .nuget-cache
+        run: ls -la .nuget-cache
